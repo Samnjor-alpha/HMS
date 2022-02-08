@@ -51,6 +51,7 @@ include '../app/controllers/functions.php'
                         <th>Appnt. Date / Time </th>
                         <th>Booking Date  </th>
                         <th>Current Status</th>
+                        <th>Action</th>
 
 
                     </tr>
@@ -64,7 +65,7 @@ include '../app/controllers/functions.php'
 
                         <tr>
                             <td class="center"><?php echo $cnt;?>.</td>
-                            <td class="hidden-xs"><?php echo $row['docname'];?></td>
+                            <td class="hidden-xs text-capitalize"><?php echo $row['docname'];?></td>
                             <td><?php echo $row['doctorSpecialization'];?></td>
                             <td><?php echo currency.' '. formatMoney($row["consultancyFees"],true);?></td>
                             <td><?php echo
@@ -80,18 +81,27 @@ include '../app/controllers/functions.php'
                                 }
                                 if(($row['userStatus']==0) && ($row['doctorStatus']==1))
                                 {
-                                    echo "Cancel by You";
+                                    echo "Cancelled by You";
                                 }
 
                                 if(($row['userStatus']==1) && ($row['doctorStatus']==0))
                                 {
-                                    echo "Cancel by Doctor";
+                                    echo "Cancelled by Doctor";
                                 }
 
 
 
                                 ?></td>
+                            <td >    <?php if(($row['userStatus']==1) && ($row['doctorStatus']==1))
+                                    { ?>
 
+                                        <a href="pendingappt.php?id=<?php echo $row['id']?>&cancel=update" onClick="return confirm('Are you sure you want to cancel this appointment ?')"class="btn btn-transparent btn-xs tooltips" title="Cancel Appointment" tooltip-placement="top" tooltip="Remove">Cancel</a>
+                                    <?php } else {
+
+                                        echo "Canceled";
+                                    } ?>
+
+                                </td>
                         </tr>
 
                         <?php
