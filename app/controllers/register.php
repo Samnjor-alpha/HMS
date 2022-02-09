@@ -1,4 +1,10 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'mailer/phpmailer/phpmailer/src/Exception.php';
+require 'mailer/phpmailer/phpmailer/src/PHPMailer.php';
+require 'mailer/phpmailer/phpmailer/src/SMTP.php';
+require 'mailer/autoload.php';
 $msg="";
 $msg_class="";
 session_start();
@@ -68,15 +74,49 @@ if(isset($_POST['regptnt']))
 
                                 $query="insert into users set fullname='$fname',address='$address',city='$city',gender='$gender',p_no='$pno',email='$email',password='$hash'";
                                 if (mysqli_query($conn, $query)) {
-                                    $_SESSION['id'] = mysqli_insert_id($conn);
+                                    $_SESSION['p_id'] = mysqli_insert_id($conn);
 
 
 
-                                    $_SESSION['fname'] = $fname;
-                                    $_SESSION['email'] = $email;
-                                    if (isset($_SESSION['id'])){
+                                    $_SESSION['pname'] = $fname;
+                                    $_SESSION['pemail'] = $email;
+                                    if (isset($_SESSION['p_id'])){
+
+                                        $mail = new PHPMailer;
+                                        $mail->isSMTP();
+                                        $mail = new PHPMailer(true);
+
+
+                                        $mail->IsSMTP();
+                                        $mail->SMTPDebug =false;
+                                        $mail->SMTPAuth = EMAIL_SMTP_AUTH;
+                                        $mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
+                                        $mail->Host = EMAIL_SMTP_HOST;
+                                        $mail->Port = EMAIL_SMTP_PORT; // or 587
+                                        $mail->IsHTML(true);
+                                        $mail->Username = EMAIL_SMTP_USERNAME;
+                                        $mail->Password = EMAIL_SMTP_PASSWORD;
+
+                                        $mail->addAddress($email);
+
+                                        $output = '<p>'.$fname.', '.EMAIL_NOTIFICATION_CONTENT.'</p>';
+                                        $output .= '<p>-------------------------------------------------------------</p>';
+                                        $output .= '<p>Regards,</p>';
+                                        $output .= '<p>' . EMAIL_NOTIFICATION_FROM_NAME . '</p>';
+                                        $output .="<p style='background-color: #1b1e21'><img alt='logo'  src='../../public/assets/img/logo/logo.svg'></p>";
+                                        $subject =EMAIL_NOTIFICATION_SUBJECT;
+                                        $body = $output;
+                                        $mail->Subject = $subject;
+                                        $mail->Body = $body;
+
+
+                                        if (!$mail->send()) {
+                                            $msg = "ERROR: " . $mail->ErrorInfo;
+                                            $msg_class = "alert-danger";
+                                        }
+
                                         echo "<script>
-alert('Successfully Registered.');
+alert('Redirecting to dashboard....');
  window.location.href='dashboard/userdashboard.php';
 </script>";
                                     }

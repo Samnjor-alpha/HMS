@@ -65,7 +65,7 @@ include '../app/controllers/functions.php'
 
                         <tr>
                             <td class="center"><?php echo $cnt;?>.</td>
-                            <td class="hidden-xs text-capitalize"><?php echo $row['docname'];?></td>
+                            <td class="hidden-xs text-capitalize"><?php echo docname($row['doctorId']);?></td>
                             <td><?php echo $row['doctorSpecialization'];?></td>
                             <td><?php echo currency.' '. formatMoney($row["consultancyFees"],true);?></td>
                             <td><?php echo
@@ -115,7 +115,7 @@ include '../app/controllers/functions.php'
 
                 <div id="notfound">
                     <div id="descnot">
-                        <h5 class="text-center  text-bold">No appointments founds</h5>
+                        <h5 class="text-center  text-bold">No pending appointments found</h5>
 
 
                         <div class="text-center">

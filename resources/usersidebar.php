@@ -15,13 +15,13 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-clock"></i></div>
                  Pending Appt.
             </a>
-            <a class="nav-link" href="">
+            <a class="nav-link" href="<?php echo BASE_URL?>/dashboard/previousappnt.php">
                 <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
                 Appt. History
             </a>
 
             <div class="sb-sidenav-menu-heading">Medical </div>
-            <a class="nav-link" href="">
+            <a class="nav-link" href="<?php echo BASE_URL?>/dashboard/medical-history.php">
                 <div class="sb-nav-link-icon">
                     <i class="fas fa-file-medical-alt"></i>
                 </div>
@@ -33,14 +33,7 @@
                 </div>
                  Feedbacks
             </a>
-        <div class="sb-sidenav-menu-heading">Profile </div>
-        <a class="nav-link" href="">
-            <div class="sb-nav-link-icon">
-                <i class="far fa-user-circle"></i>
-            </div>
-          Manage profile
-        </a>
-        </div>
+
 
     </div>
     <div class="sb-sidenav-footer">

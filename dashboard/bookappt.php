@@ -80,7 +80,7 @@ include '../app/controllers/getdoctors.php'
                 <?php }else{?>
                     <div id="notfound">
                         <div id="descnot">
-                            <h5 class=" text-center">Your query did not match out details in database</h5>
+                            <h5 class=" text-center"><?php echo $querymsg; ?></h5>
 
 
 
