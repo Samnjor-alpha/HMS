@@ -8,21 +8,7 @@ if (empty($_GET['doctor'])){
 if (isset($_GET['doctor'])){
 $doctor=mysqli_query($conn,"select * from doctors where id='".$_GET['doctor']."'");
 }
-function getdoctorsname($id){
-global $conn;
-$doctor=mysqli_query($conn,"select doctorName from doctors where id='$id'");
-return mysqli_fetch_assoc($doctor)['doctorName'];
-}
-function getdoctorspec($id){
-global $conn;
-$doctor=mysqli_query($conn,"select specilization from doctors where id='$id'");
-return mysqli_fetch_assoc($doctor)['specilization'];
-}
-function getfee($id){
-global $conn;
-$doctor=mysqli_query($conn,"select docFees from doctors where id='$id'");
-return mysqli_fetch_assoc($doctor)['docFees'];
-}
+$getdrbizhrs=mysqli_query($conn,"select * from bz_hrs where doc_id='".$_GET['doctor']."'");
 
 if (isset($_POST['bookappt'])){
     if (empty($_POST['drspec']) || empty($_POST['drname'])|| empty($_POST['fees'])|| empty($_POST['appdate'])) {
@@ -34,15 +20,16 @@ if (isset($_POST['bookappt'])){
         $userid=$_SESSION['p_id'];
         $fee=filter_var(stripslashes($_POST['fees']), FILTER_SANITIZE_STRING);
         $appdate=filter_var(stripslashes($_POST['appdate']), FILTER_SANITIZE_STRING);
-        //$apptime=filter_var(stripslashes($_POST['apptime']), FILTER_SANITIZE_STRING);
+        $apptime=filter_var(stripslashes($_POST['bizhrs']), FILTER_SANITIZE_STRING);
 
+//        $btime = date('h:i A', strtotime($apptime));
       //check whether doctor is having another appointment or a date is in the past
         $date1 = new DateTime($appdate);
-        $dt1 = $date1->format('Y-m-d H:m');
+        $dt1 = $date1->format('Y-m-d');
 
 $dateappnt=$date1->format("Y-m-d");
 
-        $td = date('Y-m-d H:m');
+        $td = date('Y-m-d');
         if ($td >= $dt1) {
             $msg="Appointments are done in future days";
             $msg_class="alert-danger";
@@ -52,15 +39,20 @@ $dateappnt=$date1->format("Y-m-d");
                 $msg="You have an appointment on this date";
                 $msg_class="alert-danger";
             }else{
-                $query=mysqli_query($conn,"insert into appointment set doctorSpecialization='$drspec',doctorId='$drid',userId='$userid',consultancyFees='$fee',appointmentDate='$appdate'");
+             $checkdrappointment=mysqli_query($conn,"select * from appointment where doctorId='$drid' and appointmentDate='$appdate' and appt_time='$apptime'");
+             if (mysqli_num_rows($checkdrappointment)){
+                 $msg="Doctor has an appointment at this time";
+                 $msg_class="alert-danger";
+             }else{
+                $query=mysqli_query($conn,"insert into appointment set doctorSpecialization='$drspec',doctorId='$drid',userId='$userid',consultancyFees='$fee',appointmentDate='$appdate',appt_time='$apptime'");
         if($query)
         {
             echo "<script>alert('Appointment booked successfully');</script>";
         }else{
-            $msg = "There was an Error in the database";
+            $msg = mysqli_error($conn);
             $msg_class = "alert-danger";
         }
     }}
 
 
-}}
+}}}

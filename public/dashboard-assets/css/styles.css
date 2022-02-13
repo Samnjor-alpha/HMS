@@ -4377,7 +4377,9 @@ input[type=button].btn-block {
 .card-text:last-child {
   margin-bottom: 0;
 }
-
+.card-link{
+  color: #000000;
+}
 .card-link:hover {
   text-decoration: none;
 }
@@ -10163,7 +10165,7 @@ body {
   flex-wrap: nowrap;
 }
 .sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-heading {
-  padding: 1.75rem 1rem 0.75rem;
+  padding: 1.05rem 1rem 0.50rem;
   font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -10172,8 +10174,8 @@ body {
 .sb-sidenav .sb-sidenav-menu .nav .nav-link {
   display: flex;
   align-items: center;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  /*padding-top: 0.75rem;*/
+  /*padding-bottom: 0.75rem;*/
   position: relative;
 }
 .sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-nav-link-icon {
@@ -10297,6 +10299,16 @@ body {
   height: 100%;
 
 }
+#notfound1{
+
+  background-image:url(../../assets/img/calnder.svg);
+  background-repeat: no-repeat;
+  background-size: 800px 100%;
+  background-position: 50% 0;
+  margin-bottom: 5px;
+  height: 100%;
+
+}
 #descnot{
   position: relative;
   overflow: hidden;
@@ -10310,4 +10322,8 @@ body {
 }
 .text-theme{
   color: #00ADB5;
+}
+.msg_upd {
+  /*...*/
+  transition-delay: 5s;
 }

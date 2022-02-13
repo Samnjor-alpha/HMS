@@ -37,12 +37,16 @@ include 'app/controllers/register.php'
         <div   class="contact-form ">
             <div class="row">
                 <div class="col-xl-8 mx-auto">
-                    <div>
-                        <?php if (!empty($msg)): ?>
-                            <div class="alert <?php echo $msg_class ?>"><?php echo $msg; ?>
+                       <div>
+                                <?php if (!empty($msg)): ?>
+                                    <div class="alert <?php echo $msg_class ?> alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
-                        <?php endif; ?>
-                    </div>
                     <form action=""  method="POST"  class="contact-form">
 
                         <div class="form-group">

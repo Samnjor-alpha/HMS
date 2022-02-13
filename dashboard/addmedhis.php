@@ -2,13 +2,14 @@
 include '../database/config.php';
 include '../app/sessions/session.php';
 include '../app/controllers/medhistory.php';
+include '../app/controllers/functions.php';
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Medical History</title>
-    <?php include '../resources/dashboard-styles.php' ?>
+    <?php include '../resources/<?php echo user_dashboard?>-styles.php' ?>
 </head>
 <body class="sb-nav-fixed">
 <?php include '../resources/topbar.php'?>
@@ -19,7 +20,7 @@ include '../app/controllers/medhistory.php';
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
+                <h1 class="mt-4"><?php echo user_dashboard?></h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Add Medical History</li>
                 </ol>
@@ -33,12 +34,16 @@ include '../app/controllers/medhistory.php';
                     <!-- /.btn-group -->
                 </div>
 
-                <div>
-                    <?php if (!empty($msg)): ?>
-                        <div class="alert <?php echo $msg_class ?>"><?php echo $msg; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                   <div>
+                                <?php if (!empty($msg)): ?>
+                                    <div class="alert <?php echo $msg_class ?> alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                 <form role="form" action=""  method="post" >
 
                     <div class="form-group">

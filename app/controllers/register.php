@@ -8,6 +8,12 @@ require 'mailer/autoload.php';
 $msg="";
 $msg_class="";
 session_start();
+
+$ret=mysqli_query($conn,"select * from doctorspecilization");
+
+
+
+/**Start User Registration**/
 if(isset($_POST['regptnt']))
 {
     $fname=filter_var(stripslashes($_POST['full_name']), FILTER_SANITIZE_STRING);
@@ -99,11 +105,11 @@ if(isset($_POST['regptnt']))
 
                                         $mail->addAddress($email);
 
-                                        $output = '<p>'.$fname.', '.EMAIL_NOTIFICATION_CONTENT.'</p>';
+                                        $output = '<p>'.$fname.', '.EMAIL_PNTN_NOTIFICATION_CONTENT.'</p>';
                                         $output .= '<p>-------------------------------------------------------------</p>';
                                         $output .= '<p>Regards,</p>';
                                         $output .= '<p>' . EMAIL_NOTIFICATION_FROM_NAME . '</p>';
-                                        $output .="<p style='background-color: #1b1e21'><img alt='logo'  src='../../public/assets/img/logo/logo.svg'></p>";
+                                        $output .="<p style='background-color: #1b1e21'><img alt='logo'  src='https://dl.uploadgram.me/6206666b869d3h?raw'></p>";
                                         $subject =EMAIL_NOTIFICATION_SUBJECT;
                                         $body = $output;
                                         $mail->Subject = $subject;
@@ -137,6 +143,140 @@ alert('Redirecting to dashboard....');
                 }
 
             }}}}
+/**End User Registration**/
+/**Start Dr. Registration**/
+if(isset($_POST['drreg']))
+{
+    $drspec=filter_var(stripslashes($_POST['drspec']), FILTER_SANITIZE_STRING);
+    $drname=filter_var(stripslashes($_POST['docname']), FILTER_SANITIZE_STRING);
+    $address=filter_var(stripslashes($_POST['clinicaddress']), FILTER_SANITIZE_STRING);
+    $fees=filter_var(stripslashes($_POST['docfees']), FILTER_SANITIZE_STRING);
+    $no=filter_var(stripslashes($_POST['doccontact']), FILTER_SANITIZE_STRING);
+    $email=filter_var(stripslashes($_POST['docemail']), FILTER_SANITIZE_STRING);
+    $password=filter_var(stripslashes($_POST['npass']), FILTER_SANITIZE_STRING);
+    $cpassword=filter_var(stripslashes($_POST['cfpass']), FILTER_SANITIZE_STRING);
+    if (empty($_POST['drspec']) ||empty($_POST['docname'])|| empty($_POST['clinicaddress']|| empty($_POST['docfees']) || empty($_POST['doccontact'])|| empty($_POST['docemail']) || empty($_POST['npass']))){
+        $msg = "inputs can not be empty";
+        $msg_class="alert-danger";
+    }    else{
+        if(!empty($_POST["docemail"])) {
+            $email= $_POST["docemail"];
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)===false) {
+
+                $msg='invalid email';
+                $msg_class='alert-danger';
+            }else{
+
+
+                $sql_de = "SELECT * FROM doctors WHERE docEmail='$email'";
+
+                $res_de = mysqli_query($conn, $sql_de);
+
+                $sql_u = "SELECT * FROM doctors WHERE contactno='$no'";
+
+                $res_u = mysqli_query($conn, $sql_u);
+
+
+                if(strlen(trim($password)) <6)
+                {
+                    $msg = "password too short";
+                    $msg_class = "alert-danger";
+                }else{
+
+
+
+// check if passwords match
+                    if ($password !== $cpassword) {
+                        $msg = "The passwords do not match";
+                        $msg_class = "alert-danger";
+                    } elseif ($password == $cpassword) {
+
+                        if (mysqli_num_rows($res_de) > 0) {
+                            $msg = "Email is already associated with an account";
+                            $msg_class = "alert-danger";
+                        }elseif (mysqli_num_rows($res_u)>0){
+                            $msg = "mobile number is already associated with an account";
+                            $msg_class = "alert-danger";
+                        } else {
+                            $hash = password_hash($password, PASSWORD_DEFAULT);
+
+// For image upload
+
+// Upload image only if no errors
+                            if (empty($error)) {
+
+
+
+
+
+                                $query="insert into doctors set doctorName='$drname',specilization='$drspec',docEmail='$email',address='$address',docFees='$fees',contactno='$no',password='$hash'";
+                                if (mysqli_query($conn, $query)) {
+                                    $_SESSION['dr_id'] = mysqli_insert_id($conn);
+
+
+
+                                    $_SESSION['dr_name'] = $drname;
+                                    $_SESSION['dr_email'] = $email;
+                                    if (isset($_SESSION['dr_id'])){
+
+                                        $mail = new PHPMailer;
+                                        $mail->isSMTP();
+                                        $mail = new PHPMailer(true);
+
+
+                                        $mail->IsSMTP();
+                                        $mail->SMTPDebug =false;
+                                        $mail->SMTPAuth = EMAIL_SMTP_AUTH;
+                                        $mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
+                                        $mail->Host = EMAIL_SMTP_HOST;
+                                        $mail->Port = EMAIL_SMTP_PORT; // or 587
+                                        $mail->IsHTML(true);
+                                        $mail->Username = EMAIL_SMTP_USERNAME;
+                                        $mail->Password = EMAIL_SMTP_PASSWORD;
+
+                                        $mail->addAddress($email);
+
+                                        $output = '<p>'.$drname.', '.EMAIL_DR_NOTIFICATION_CONTENT.'</p>';
+                                        $output .= '<p>-------------------------------------------------------------</p>';
+                                        $output .= '<p>Regards,</p>';
+                                        $output .= '<p>' . EMAIL_NOTIFICATION_FROM_NAME . '</p>';
+                                        $output .="<p style='background-color: #1b1e21'><img alt='logo'  src='https://dl.uploadgram.me/6206666b869d3h?raw'></p>";
+                                        $subject =EMAIL_NOTIFICATION_SUBJECT;
+                                        $body = $output;
+                                        $mail->Subject = $subject;
+                                        $mail->Body = $body;
+
+
+                                        if (!$mail->send()) {
+                                            $msg = "ERROR: " . $mail->ErrorInfo;
+                                            $msg_class = "alert-danger";
+                                        }
+
+                                        echo "<script>
+alert('Redirecting to dashboard....');
+ window.location.href='doctor/doctordashboard.php';
+</script>";
+                                    }else{
+                                        echo mysqli_errno($conn);
+                                    }
+
+
+
+                                }
+                            }
+
+
+
+                            else {
+                                $msg = "There was an Error in the database";
+                                $msg_class = "alert-danger";
+                            }
+                        }
+                    }
+                }
+
+            }}}}
+/**End Dr. Registration**/
 
 
 

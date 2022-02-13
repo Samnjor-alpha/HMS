@@ -2,6 +2,8 @@
 $smsg="";
 $msg_class="";
 session_start();
+
+/***Start USer login****/
 if(isset($_POST['logptnt'])){
     if (empty($_POST['email']) || empty($_POST['password'])) {
         $msg = "complete fields!";
@@ -40,3 +42,46 @@ if(isset($_POST['logptnt'])){
 
 
         }}}
+/***End USer login****/
+/**/
+
+/***Start Dr. login****/
+if(isset($_POST['logdr'])){
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+        $msg = "complete fields!";
+        $msg_class="alert-danger";
+    } else{
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $query = "select * from doctors where docEmail='$email'";
+        $result = $conn->query($query);
+        if ($result->num_rows<1){
+            $msg = "Account does not exist";
+            $msg_class = "alert-danger";
+        }else {
+
+            $query = "select * from doctors where docEmail='$email'";
+            $result = $conn->query($query);
+
+        }        if ($result->num_rows == 1) {
+            $row = $result->fetch_array(MYSQLI_ASSOC);
+            if (!password_verify($_POST['password'], $row['password'])) {
+                $msg = "Cross-check your password!!";
+                $msg_class = "alert-danger";
+            } else if (password_verify($_POST['password'], $row['password'])) {
+
+
+
+                $_SESSION['dr_id'] = $row['id'];// Password matches, so create the sessions
+                $_SESSION['dr_name'] = $row['doctorName'];
+                $_SESSION['dr_email'] = $row['docEmail'];
+
+
+                header('Location: ' . BASE_URL . '/doctor/doctordashboard.php');
+
+            }
+
+
+        }}}
+/***End Dr. login****/

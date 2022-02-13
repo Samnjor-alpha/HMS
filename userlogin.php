@@ -23,7 +23,7 @@ include 'app/controllers/login.php';
             <div class="col-xl-8 mx-auto">
                 <div class="section-title text-center mb-55">
 
-                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s"><?php echo ptnt_loginTittle?></h2>
+                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s"><?php echo doc_loginTittle?></h2>
                     <p class="wow fadeInLeft" data-wow-delay=".6s">
 
                         <?php echo ptnt_logindesc ?>
@@ -38,7 +38,11 @@ include 'app/controllers/login.php';
                         <div class="col-xl-8 mx-auto">
                             <div>
                                 <?php if (!empty($msg)): ?>
-                                    <div class="alert <?php echo $msg_class ?>"><?php echo $msg; ?>
+                                    <div class="alert <?php echo $msg_class ?> alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <?php echo $msg; ?>
                                     </div>
                                 <?php endif; ?>
                             </div>

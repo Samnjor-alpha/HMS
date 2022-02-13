@@ -20,7 +20,7 @@ include '../app/controllers/functions.php'
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
+                <h1 class="mt-4"><?php echo user_dashboard?></h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Medical History</li>
                 </ol>
@@ -34,18 +34,22 @@ include '../app/controllers/functions.php'
                     <!-- /.btn-group -->
                 </div>
 
-                <div>
-                    <?php if (!empty($msg)): ?>
-                        <div class="alert <?php echo $msg_class ?>"><?php echo $msg; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                   <div>
+                                <?php if (!empty($msg)): ?>
+                                    <div class="alert <?php echo $msg_class ?> alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                 <?php if (mysqli_num_rows($medhis)>0){ ?>
                     <table class="table table-hover" id="sample-table-1">
                         <thead>
                         <tr>
                             <th class="center">#</th>
-                            <th class="hidden-xs">Medical Hist.</th>
+                            <th class="">Medical Hist.</th>
                             <th>Medication Hist.</th>
                             <th>Family Medical Hist.</th>
                             <th>Treatment Hist</th>

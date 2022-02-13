@@ -20,7 +20,7 @@ include '../app/controllers/functions.php'
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
+                <h1 class="mt-4"><?php echo user_dashboard?></h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Pending Appointments</li>
                 </ol>
@@ -34,18 +34,22 @@ include '../app/controllers/functions.php'
                     <!-- /.btn-group -->
                 </div>
 
-                <div>
-                    <?php if (!empty($msg)): ?>
-                        <div class="alert <?php echo $msg_class ?>"><?php echo $msg; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                   <div>
+                                <?php if (!empty($msg)): ?>
+                                    <div class="alert <?php echo $msg_class ?> alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                 <?php if (mysqli_num_rows($appnts)>0){ ?>
                 <table class="table table-hover" id="sample-table-1">
                     <thead>
                     <tr>
                         <th class="center">#</th>
-                        <th class="hidden-xs">Doctor Name</th>
+                        <th class="">Doctor Name</th>
                         <th>Specialization</th>
                         <th>Consultancy Fee</th>
                         <th>Appnt. Date / Time </th>
@@ -65,13 +69,13 @@ include '../app/controllers/functions.php'
 
                         <tr>
                             <td class="center"><?php echo $cnt;?>.</td>
-                            <td class="hidden-xs text-capitalize"><?php echo docname($row['doctorId']);?></td>
+                            <td class=" text-capitalize"><?php echo docname($row['doctorId']);?></td>
                             <td><?php echo $row['doctorSpecialization'];?></td>
                             <td><?php echo currency.' '. formatMoney($row["consultancyFees"],true);?></td>
                             <td><?php echo
                                 formatAppointment($row['appointmentDate']);?>
-<!--                                 --><?php //echo
-//                                $row['appointmentTime'];?>
+                                 <?php echo
+                                $row['appt_time'];?>
                             </td>
                             <td><?php echo timeAgo($row['postingDate']);?></td>
                             <td>
@@ -83,22 +87,22 @@ include '../app/controllers/functions.php'
                                 {
                                     echo "Cancelled by You";
                                 }
-
                                 if(($row['userStatus']==1) && ($row['doctorStatus']==0))
                                 {
                                     echo "Cancelled by Doctor";
                                 }
-
-
-
-                                ?></td>
+                                if(($row['doctorStatus']==2) && ($row['feedbackstatus']==0)){
+                                    echo'<p class="text-info">Dr. will leave a feeback soon</p>'; }
+                                if(($row['doctorStatus']==2) && ($row['feedbackstatus']==1)){
+                                echo'<a class="btn btn-primary">Read Feedback</a>'; }
+                                ?>
+                            </td>
                             <td >    <?php if(($row['userStatus']==1) && ($row['doctorStatus']==1))
                                     { ?>
-
                                         <a href="pendingappt.php?id=<?php echo $row['id']?>&cancel=update" onClick="return confirm('Are you sure you want to cancel this appointment ?')"class="btn btn-transparent btn-xs tooltips" title="Cancel Appointment" tooltip-placement="top" tooltip="Remove">Cancel</a>
-                                    <?php } else {
+                                    <?php } elseif(($row['userStatus']==1) && ($row['doctorStatus']==2)) {
 
-                                        echo "Canceled";
+                                    echo "<p class='text-info'>Thanks for coming!!</p>";
                                     } ?>
 
                                 </td>

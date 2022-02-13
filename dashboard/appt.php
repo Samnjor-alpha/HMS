@@ -1,7 +1,8 @@
 <?php
 include '../database/config.php';
 include '../app/sessions/session.php';
-include '../app/controllers/bookappt.php'
+include '../app/controllers/bookappt.php';
+include "../app/controllers/functions.php";
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ include '../app/controllers/bookappt.php'
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
+                <h1 class="mt-4"><?php echo user_dashboard?></h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Book Appointment</li>
                 </ol>
@@ -33,12 +34,16 @@ include '../app/controllers/bookappt.php'
                     <!-- /.btn-group -->
                 </div>
 
-                <div>
-                    <?php if (!empty($msg)): ?>
-                        <div class="alert <?php echo $msg_class ?>"><?php echo $msg; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                   <div>
+                                <?php if (!empty($msg)): ?>
+                                    <div class="alert <?php echo $msg_class ?> alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                 <form role="form" name="book" method="post" >
 
                     <div class="form-group">
@@ -65,7 +70,7 @@ include '../app/controllers/bookappt.php'
 
                     <div class="form-group">
                         <label for="fees">
-                            Consultancy Fees( <? echo currency?>)
+                            Consultancy Fees( <?php echo currency?>)
                         </label>
                         <input name="fees" class="form-control" id="fees" value="<?php echo getfee($_GET['doctor'])?>"  readonly>
 
@@ -80,7 +85,23 @@ include '../app/controllers/bookappt.php'
 
                     </div>
 
+                    <div class="form-group">
+                        <label for="bizhrs">
+                            Time
+                        </label>
+                      <select  name="bizhrs" id="bizhrs" class="form-control">
 
+                          <option  disabled selected>Choose Appt. Time</option>
+                          <?php while($row=mysqli_fetch_array($getdrbizhrs)){
+                              ?>
+                              <option value="<?php echo htmlentities($row['hours']);?>">
+                                  <?php echo htmlentities($row['hours']);?>
+                              </option>
+                          <?php } ?>
+
+                      </select>
+
+                    </div>
 
                     <button type="submit" name="bookappt" class="btn btn-block theme-btn">
                        Book Appointment

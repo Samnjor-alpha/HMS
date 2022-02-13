@@ -40,14 +40,14 @@
                         <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                             <ul id="nav" class="navbar-nav ml-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="<? echo BASE_URL?>/index.php">Home</a>
+                                    <a class="nav-link"  href="<?php echo BASE_URL?>/index.php">Home</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="page-scroll" href="#services">Service</a>
+                                    <a  class="nav-link page-scroll" href="#services">Service</a>
                                 </li>
                                                                <li class="nav-item">
-                                    <a class="page-scroll" href="">FAQ</a>
+                                    <a class=" nav-link page-scroll" href="">FAQ</a>
                                 </li>
                             </ul>
                         </div> <!-- navbar collapse -->
