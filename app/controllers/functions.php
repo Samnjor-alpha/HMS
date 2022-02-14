@@ -244,3 +244,13 @@ function getfaqanswer($id){
 
 
 }
+function getmedicalhistory($id){
+    global $conn;
+    $medhistory=mysqli_query($conn,"select * from medicalhist where pnt_id='$id'");
+    if (mysqli_num_rows($medhistory)>0){
+        return "<p><button data-toggle='modal' data-target='#medical'> View Medical History</button></p>";
+    }else{
+        return "<p><button>No medical History</button></p>";
+    }
+
+}

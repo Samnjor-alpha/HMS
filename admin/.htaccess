@@ -1,0 +1,7 @@
+
+#php_value date.timezone 'Africa/Nairobi'
+DirectoryIndex login.php
+
+
+
+#php_flag display_errors on

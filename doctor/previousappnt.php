@@ -67,7 +67,7 @@ include '../app/controllers/doctordashboard.php';
 
                             <tr>
                                 <td class="center"><?php echo $cnt;?>.</td>
-                                <td class=" text-capitalize"><?php echo pntname($row['userId']);?></td>
+                                <td class=" text-capitalize"><a class="text-info" title="view profile" href="viewpatient.php?profile=<?php echo $row['userId'] ?>"><?php echo pntname($row['userId']);?></a></td>
 
                                 <td><?php echo
                                     formatAppointment($row['appointmentDate']);?>
@@ -97,8 +97,10 @@ include '../app/controllers/doctordashboard.php';
                                     ?></td>
                                 <td >    <?php if(($row['userStatus']==1) && ($row['doctorStatus']==2) &&($row['feedbackstatus']==0))
                                     { ?>
-                                        <a href="previousappnt.php?id=<?php echo $row['id']?>&feedback=update" class="btn btn-primary" title="Give feedback">Give Feedback</a>
-                                    <?php } else {
+                                        <a href="previousappnt.php" class="btn btn-primary"  data-toggle="modal" data-target="#<?php echo $ucnt?>" title="Give feedback">Give Feedback</a>
+
+                                    <?php
+                                    include '../resources/modalfeedback.php';} else {
 
                                         echo "<p class='text-info'>Feedback Sent!!</p>";
                                     } ?>
@@ -108,6 +110,7 @@ include '../app/controllers/doctordashboard.php';
 
                             <?php
                             $cnt=$cnt+1;
+                            $ucnt++;
                         }?>
 
 
@@ -133,5 +136,10 @@ include '../app/controllers/doctordashboard.php';
     </div>
 </div>
 <?php include '../resources/dashboard-scripts.php'?>
+pen modal
+</button>
+
+<!-- The Modal -->
+
 </body>
 </html>

@@ -73,7 +73,7 @@ include '../app/controllers/functions.php'
                                 <td >    <?php if(($row['viewed']==0))
                                     { ?>
 
-                                        <a href="feedbacks.php?id=<?php echo $row['id']?>&cancel=read" onClick="return confirm('Are you sure you want Mark read?')" class="btn theme-btn">Mark Read</a>
+                                        <a href="feedbacks.php?id=<?php echo $row['id']?>&cancel=read" onClick="return confirm('Are you sure you want Mark read?')" class="btn btn-primary">Mark Read</a>
                                     <?php } else {
 
                                         echo "<p class='text-secondary'>Read</p>";

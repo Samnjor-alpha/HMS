@@ -23,7 +23,7 @@ include 'app/controllers/login.php';
             <div class="col-xl-8 mx-auto">
                 <div class="section-title text-center mb-55">
 
-                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s"><?php echo doc_loginTittle?></h2>
+                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s"><?php echo ptnt_loginTittle?></h2>
                     <p class="wow fadeInLeft" data-wow-delay=".6s">
 
                         <?php echo ptnt_logindesc ?>

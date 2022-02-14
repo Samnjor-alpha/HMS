@@ -9,7 +9,7 @@ include '../app/controllers/functions.php';
 <html lang="en">
 <head>
     <title>Medical History</title>
-    <?php include '../resources/<?php echo user_dashboard?>-styles.php' ?>
+    <?php include '../resources/dashboard-styles.php' ?>
 </head>
 <body class="sb-nav-fixed">
 <?php include '../resources/topbar.php'?>
