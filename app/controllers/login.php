@@ -34,9 +34,38 @@ if(isset($_POST['logptnt'])){
                 $_SESSION['p_id'] = $row['id'];// Password matches, so create the sessions
                  $_SESSION['pname'] = $row['fullName'];
                 $_SESSION['pemail'] = $row['email'];
+                function random_username($fname)
+                {
+                    $new_name = $fname.mt_rand(0,100900);
 
+                    return  check_user_name($new_name,$fname);
+                }
+                function check_user_name($new_name,$fname)
+                {
+                    global $conn;
+                    $select = mysqli_query($conn,"select * from v_users where username='$new_name'");
 
-                header('Location: ' . BASE_URL . '/dashboard/userdashboard.php');
+                    if(mysqli_num_rows($select)>0)
+                    {
+                        random_username($fname);
+                    }
+                    else
+                    {
+                        return $new_name;
+                    }
+
+                }
+                $newname= check_user_name(random_username($_SESSION['pname']), $_SESSION['pname']);
+                session_regenerate_id();
+                $ssid=session_id();
+ $checkvuser=mysqli_query($conn,"select * from v_users where dr_pnt_id='".$_SESSION['p_id']."' and type='pnt' ");
+ if (mysqli_num_rows($checkvuser)>0){
+     header('Location: ' . BASE_URL . '/dashboard/userdashboard.php');
+ }else{
+     $insert=mysqli_query($conn, "insert into v_users set dr_pnt_id='".$_SESSION['p_id']."',username='$newname',name='".$_SESSION['pname']."',sessionID='$ssid',type='pnt',connectionID='0'");
+     header('Location: ' . BASE_URL . '/dashboard/userdashboard.php');
+ }
+
 
             }
 

@@ -36,7 +36,28 @@ if(isset($_POST['regptnt']))
                 $msg_class='alert-danger';
             }else{
 
+                function random_username($fname)
+                {
+                     $new_name = $fname.mt_rand(0,100900);
 
+                  return  check_user_name($new_name,$fname);
+                }
+                function check_user_name($new_name,$fname)
+                {
+                    global $conn;
+                    $select = mysqli_query($conn,"select * from v_users where username='$new_name'");
+
+                    if(mysqli_num_rows($select)>0)
+                    {
+                        random_username($fname);
+                    }
+                    else
+                    {
+                        return $new_name;
+                    }
+
+                }
+          $newname= check_user_name(random_username($fname),$fname);
                 $sql_e = "SELECT * FROM users WHERE email='$email'";
 
                 $res_e = mysqli_query($conn, $sql_e);
@@ -77,13 +98,16 @@ if(isset($_POST['regptnt']))
 
 
 
-
                                 $query="insert into users set fullname='$fname',address='$address',city='$city',gender='$gender',p_no='$pno',email='$email',password='$hash'";
                                 if (mysqli_query($conn, $query)) {
                                     $_SESSION['p_id'] = mysqli_insert_id($conn);
+                                    session_regenerate_id();
+                                    $ssid=session_id();
+$v_user=mysqli_query($conn,"insert into v_users set dr_pnt_id='".$_SESSION['p_id']."',username='$newname', name='$fname', type='pnt', connectionID='0',sessionID='$ssid' ");
 
+                                    $_SESSION['userID']=mysqli_insert_id($conn);
 
-
+                                    $_SESSION['name']=$fname;
                                     $_SESSION['pname'] = $fname;
                                     $_SESSION['pemail'] = $email;
                                     if (isset($_SESSION['p_id'])){
@@ -168,6 +192,28 @@ if(isset($_POST['drreg']))
             }else{
 
 
+                function random_username($fname)
+                {
+                    $new_name = $fname.mt_rand(0,100900);
+
+                    return  check_user_name($new_name,$fname);
+                }
+                function check_user_name($new_name,$fname)
+                {
+                    global $conn;
+                    $select = mysqli_query($conn,"select * from v_users where username='$new_name'");
+
+                    if(mysqli_num_rows($select)>0)
+                    {
+                        random_username($fname);
+                    }
+                    else
+                    {
+                        return $new_name;
+                    }
+
+                }
+                $newname= check_user_name(random_username($drname),$drname);
                 $sql_de = "SELECT * FROM doctors WHERE docEmail='$email'";
 
                 $res_de = mysqli_query($conn, $sql_de);
@@ -213,7 +259,11 @@ if(isset($_POST['drreg']))
                                 if (mysqli_query($conn, $query)) {
                                     $_SESSION['dr_id'] = mysqli_insert_id($conn);
 
+                                    session_regenerate_id();
+                                    $ssid=session_id();
+                                    $v_user=mysqli_query($conn,"insert into v_users set dr_pnt_id='".$_SESSION['dr_id']."',username='$newname', name='$drname', type='dr', connectionID='0',sessionID='$ssid' ");
 
+                                    $_SESSION['userID']=mysqli_insert_id($conn);
 
                                     $_SESSION['dr_name'] = $drname;
                                     $_SESSION['dr_email'] = $email;
