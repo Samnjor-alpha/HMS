@@ -57,7 +57,7 @@ if(isset($_POST['regptnt']))
                     }
 
                 }
-          $newname= check_user_name(random_username($fname),$fname);
+                $newname= check_user_name(str_replace(' ', '', random_username($fname)), str_replace(' ', '', $fname));
                 $sql_e = "SELECT * FROM users WHERE email='$email'";
 
                 $res_e = mysqli_query($conn, $sql_e);
@@ -213,7 +213,7 @@ if(isset($_POST['drreg']))
                     }
 
                 }
-                $newname= check_user_name(random_username($drname),$drname);
+                $newname= check_user_name(str_replace(' ', '', random_username($drname)), str_replace(' ', '', $drname));
                 $sql_de = "SELECT * FROM doctors WHERE docEmail='$email'";
 
                 $res_de = mysqli_query($conn, $sql_de);
