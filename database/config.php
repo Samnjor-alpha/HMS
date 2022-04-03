@@ -10,8 +10,8 @@ const DBPWD = "";
 $conn = mysqli_connect(HOST,USER,DBPWD,DB);
 global $conn;
 //Text constants
-const PHONE= "+233555396154";
-const APP_NAME="Wilson Medical Center";
+const PHONE= "+2XXXXX";
+const APP_NAME="Medical Chmenter";
 const EMAIL= "info@wilsonmedicalcenter.com";
 const ptnt_loginTittle= "HMS Patient Login";
 const ptnt_logindesc= "Login  to book Appointment";
@@ -31,8 +31,8 @@ const admin_dashboard="Admin Dashboard";
 const EMAIL_USE_SMTP = true;
 const EMAIL_SMTP_HOST = "smtp.gmail.com";
 const EMAIL_SMTP_AUTH = true;
-const EMAIL_SMTP_USERNAME = "wilsonmedicalcenter1@gmail.com";
-const EMAIL_SMTP_PASSWORD = "WilS100%123";
+const EMAIL_SMTP_USERNAME = "username@gmail.com";
+const EMAIL_SMTP_PASSWORD = "password";
 const EMAIL_SMTP_PORT = 587;
 const EMAIL_SMTP_ENCRYPTION = "tsl";
 
